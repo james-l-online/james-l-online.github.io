@@ -78,6 +78,13 @@ jobs:
           ls -la "_site${{ steps.pages.outputs.base_path }}/assets/css" || true
           ls -la "_site${{ steps.pages.outputs.base_path }}/assets/img/favicons" || true
 
+      - name: Upload built site for debugging
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pages-built-site-debug
+          path: "_site${{ steps.pages.outputs.base_path }}"
+
       - name: Test site
         run: |
           bundle exec htmlproofer "_site${{ steps.pages.outputs.base_path }}" \
