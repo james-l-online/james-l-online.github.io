@@ -28,6 +28,7 @@ jobs:
 
     steps:
       - name: Checkout
+        id: checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -36,10 +37,20 @@ jobs:
           # (See: https://github.com/cotes2020/chirpy-starter/tree/main/assets)
 
       - name: Ensure submodules
-        if: steps.checkout.outcome != 'failure'
+        if: always()
         run: |
+          echo "Checking submodule status"
+          git submodule status --recursive || true
           git submodule sync --recursive
           git submodule update --init --recursive
+
+      - name: Debug assets/lib in workspace
+        if: always()
+        run: |
+          echo "Listing assets/lib from repo (should contain static assets):"
+          ls -la assets/lib || true
+          echo "Top-level assets dir listing:"
+          ls -la assets || true
 
       - name: Setup Pages
         id: pages
