@@ -72,6 +72,8 @@ jobs:
         run: |
           echo "Built site root: _site${{ steps.pages.outputs.base_path }}"
           ls -la "_site${{ steps.pages.outputs.base_path }}" || true
+          echo "Top-level _site listing (for resolving absolute links):"
+          ls -la _site || true
           echo "Listing assets dir (if present):"
           ls -la "_site${{ steps.pages.outputs.base_path }}/assets" || true
           echo "Listing assets/css and assets/img/favicons (if present):"
@@ -87,7 +89,8 @@ jobs:
 
       - name: Test site
         run: |
-          bundle exec htmlproofer "_site${{ steps.pages.outputs.base_path }}" \
+          echo "Running HTML-Proofer against _site (root) so absolute links like /<baseurl>/... are resolved correctly"
+          bundle exec htmlproofer "_site" \
             \-\-disable-external \
             \-\-ignore-urls "/^http:\/\/127.0.0.1/,/^http:\/\/0.0.0.0/,/^http:\/\/localhost/"
 
