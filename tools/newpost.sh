@@ -16,7 +16,7 @@ OUT_DIR="_posts"
 
 mkdir -p "$OUT_DIR"
 
-cat > "$OUT_DIR/$FNAME" <<EOF
+cat >"$OUT_DIR/$FNAME" <<EOF
 ---
 title: "$TITLE"
 date: $(date -u +"%Y-%m-%d %H:%M:%S %z")
